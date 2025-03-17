@@ -21,7 +21,7 @@ class MDocReaderBLEPeripheral: NSObject {
     var bleIdent: Data
     var incomingMessageBuffer = Data()
     var incomingMessageIndex = 0
-    var callback: MDocReaderBLEDelegate
+    var callback: MDocReaderBLEPeripheralDelegate
     var writeCharacteristic: CBMutableCharacteristic?
     var readCharacteristic: CBMutableCharacteristic?
     var stateCharacteristic: CBMutableCharacteristic?
@@ -53,7 +53,7 @@ class MDocReaderBLEPeripheral: NSObject {
         }
     }
 
-    init(callback: MDocReaderBLEDelegate, serviceUuid: CBUUID, request: Data, bleIdent: Data) {
+    init(callback: MDocReaderBLEPeripheralDelegate, serviceUuid: CBUUID, request: Data, bleIdent: Data) {
         self.serviceUuid = serviceUuid
         self.callback = callback
         self.bleIdent = bleIdent

@@ -20,6 +20,7 @@ enum MdocHolderBleError {
 }
 
 enum MdocReaderBleError {
+    case peripheral(String)
     /// When communication with the server fails
     case server(String)
     /// When Bluetooth is unusable (e.g. unauthorized).
@@ -40,7 +41,7 @@ protocol MDocBLEDelegate: AnyObject {
 }
 
 enum MDocReaderBLECallback {
-    case done([String: [String: MDocItem]])
+    case done(Data)
     case connected
     case error(MdocReaderBleError)
     case message(Data)
@@ -48,9 +49,16 @@ enum MDocReaderBLECallback {
     case downloadProgress(Int)
 }
 
-protocol MDocReaderBLEDelegate: AnyObject {
+protocol MDocReaderBLEPeripheralDelegate: AnyObject {
+    func updateForPeripheralServerMode(message: MDocReaderBLECallback)
     func callback(message: MDocReaderBLECallback)
 }
+
+protocol MDocReaderBLECentralDelegate: AnyObject {
+    func updateForCentralClientMode(message: MDocReaderBLECallback)
+    func callback(message: MDocReaderBLECallback)
+}
+
 
 /// Return a string describing a BLE characteristic property.
 func MDocCharacteristicPropertyName(_ prop: CBCharacteristicProperties) -> String {
